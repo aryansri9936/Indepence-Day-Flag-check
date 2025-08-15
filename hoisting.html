@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Virtual Flag Hoisting</title>
+  <link rel="stylesheet" href="Tiranga.css">
+</head>
+<body>
+  <nav class="navbar"> <nav class="navbar"> <ul>
+      <li><a href="Tiranga.html">Flag Validator</a></li>
+      <li><a href="guidelines.html">Guidelines</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="editor.html">Make Your Own Tiranga</a></li>
+      <li><a href="quiz.html">Quiz</a></li>
+      <li><a href="hoisting.html">Virtual Hoisting</a></li>
+      <li><a href="dosdonts.html">Do’s & Don’ts</a></li>
+      <li><a href="downloads.html">Downloads</a></li>
+      <li><a href="tribute.html">Daily Tribute</a></li>
+    </ul>
+  <video autoplay muted loop class="main-video"><source src="bg.mp4" type="video/mp4"></video>
+
+  <header class="hero"><h1>Virtual Hoisting</h1><p>Raise the Tiranga with pride</p></header>
+
+  <main>
+    <div class="content1">
+      <section class="card">
+        <button onclick="hoistFlag()">Hoist Flag</button>
+        <canvas id="hoistCanvas" width="400" height="300"></canvas>
+      </section>
+    </div>
+  </main>
+
+  <footer><p>Made with ❤️ in India • Independence Day 2025</p></footer>
+  <script>window.hoistFlag = function () {
+  const ctx = hoistCanvas.getContext("2d");
+  ctx.clearRect(0, 0, hoistCanvas.width, hoistCanvas.height);
+
+  let y = hoistCanvas.height;
+  const flagWidth = 180;
+  const flagHeight = 108;
+  const stripeHeight = flagHeight / 3;
+
+  const interval = setInterval(() => {
+    ctx.clearRect(0, 0, hoistCanvas.width, hoistCanvas.height);
+
+    // Background
+    ctx.fillStyle = "#f0f0f0";
+    ctx.fillRect(0, 0, hoistCanvas.width, hoistCanvas.height);
+
+    // Pole
+    ctx.fillStyle = "#000";
+    ctx.fillRect(20, 0, 5, hoistCanvas.height);
+
+    // Flag position
+    const flagX = 30;
+
+    // Stripes
+    ctx.fillStyle = "#FF9933";
+    ctx.fillRect(flagX, y, flagWidth, stripeHeight);
+
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(flagX, y + stripeHeight, flagWidth, stripeHeight);
+
+    ctx.fillStyle = "#138808";
+    ctx.fillRect(flagX, y + 2 * stripeHeight, flagWidth, stripeHeight);
+
+    // Chakra center + radius
+    const chakraX = flagX + flagWidth / 2;
+    const chakraY = y + stripeHeight * 1.5;
+    const chakraR = 18;
+
+    // Outer circle
+    ctx.beginPath();
+    ctx.arc(chakraX, chakraY, chakraR, 0, 2 * Math.PI);
+    ctx.strokeStyle = "#000080";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Draw 24 spokes
+    for (let i = 0; i < 24; i++) {
+      const angle = (i * 2 * Math.PI) / 24;
+      const xEnd = chakraX + chakraR * Math.cos(angle);
+      const yEnd = chakraY + chakraR * Math.sin(angle);
+
+      ctx.beginPath();
+      ctx.moveTo(chakraX, chakraY);
+      ctx.lineTo(xEnd, yEnd);
+      ctx.strokeStyle = "#000080";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // Animate upward
+    y -= 4;
+    if (y <= 50) clearInterval(interval);
+  }, 100);
+};
+</script>
+</body>
+</html>

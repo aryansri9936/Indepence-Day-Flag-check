@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tiranga Quiz</title>
+  <style>
+    :root {
+  --saffron: #ff9933;
+  --green: #138808;
+  --chakra: #000080;
+  --card: rgba(255, 255, 255, 0.85); /* semi-transparent to see video */
+  --text: #222;
+  --muted: #555;
+}
+
+
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  text-align: center;
+  color: white;
+}
+
+
+.hero {
+  text-align: center;
+  padding: 40px 16px;
+  background: transparent
+}
+.hero h1 {
+  margin: 0;
+  font-family: "Merriweather", serif;
+  font-size: 2.2rem;
+}
+.hero p {
+  margin: 6px 0 0;
+  color: var(--chakra);
+  font-weight: bold;
+}
+
+
+main {
+  position: relative;
+  min-height: 100vh; /* ensures space for video */
+  overflow: hidden;
+}
+
+
+.main-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  position: fixed;
+}
+
+
+.content {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  z-index: 1;
+}
+
+
+.card {
+  background: var(--card);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  color: var(--text);
+}
+.results pre {
+  background: #f7f7f7;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+canvas {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+
+button {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+button:hover { opacity: 0.9; }
+#run { background: var(--saffron); color: white; }
+#download { background: var(--green); color: white; }
+
+
+.score {
+  height: 18px;
+  background: #eee;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.score-fill {
+  height: 100%;
+  transition: width 0.5s;
+  background: linear-gradient(90deg, var(--saffron), white, var(--green));
+}
+
+
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.5rem;
+  color: white;
+  position: relative;
+}
+
+
+@media (max-width: 900px) {
+  .content { grid-template-columns: 1fr; }
+}
+
+.navbar {
+  position: sticky; 
+  top: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6); 
+  backdrop-filter: blur(6px);
+  z-index: 10;
+}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;  
+}
+
+.navbar li {
+  margin: 8px 15px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.navbar a:hover {
+  background: linear-gradient(to right, #ff9933, #ffffff, #138808); /* Tiranga gradient */
+  color: black;
+}
+.content1 {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr; /* single column for better readability */
+  z-index: 1;
+}
+
+.petal{
+      position:fixed;
+      top:-40px;
+      font-size:26px;
+      pointer-events:none;
+      z-index:9999;
+      will-change:transform,opacity;
+      opacity:0.98;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+      transform-origin:center;
+      animation-name:fall;
+      animation-timing-function:linear;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity:1; }
+      100% { transform: translateY(120vh) rotate(720deg) translateX(30vw); opacity:0.05; }
+    }
+
+    /* small responsiveness */
+    @media (max-width:480px){
+      .hero h1{font-size:24px}
+      .opt-btn{font-size:14px;padding:10px}
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="Tiranga.html">Flag Validator</a></li>
+      <li><a href="guidelines.html">Guidelines</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="editor.html">Make Your Own Tiranga</a></li>
+      <li><a href="quiz.html">Quiz</a></li>
+      <li><a href="hoisting.html">Virtual Hoisting</a></li>
+      <li><a href="dosdonts.html">Do’s & Don’ts</a></li>
+      <li><a href="downloads.html">Downloads</a></li>
+      <li><a href="tribute.html">Daily Tribute</a></li>
+    </ul>
+  </nav>
+
+  <!-- optional background video (file bg.mp4 should be in same folder) -->
+  <video autoplay muted loop class="main-video" playsinline>
+    <source src="bg.mp4" type="video/mp4">
+  </video>
+
+  <header class="hero">
+    <h1>Tiranga Quiz</h1>
+    <p>Test your knowledge about the National Flag</p>
+  </header>
+
+  <main>
+    <section class="card" aria-live="polite">
+      <div class="scoreboard" id="scoreboard">Score: 0</div>
+
+      <div class="question-counter" id="qCounter">Question 1 / 1</div>
+      <div class="question-text" id="question">Loading...</div>
+
+      <div id="options">
+        <!-- option buttons are rendered here by JS -->
+      </div>
+
+      <div id="quizResult" role="status" aria-atomic="true"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made with ❤️ in India • Independence Day 2025</p>
+  </footer>
+
+  <script>
+    // ========= Quiz data =========
+    const quizData = [
+      {
+        question: "What does the Ashoka Chakra represent?",
+        options: ["Peace", "Dharma & Justice", "Unity"],
+        answer: "Dharma & Justice"
+      },
+      {
+        question: "How many spokes does the Ashoka Chakra have?",
+        options: ["12", "24", "36"],
+        answer: "24"
+      },
+      {
+        question: "Which color in the flag stands for courage and sacrifice?",
+        options: ["Green", "White", "Saffron"],
+        answer: "Saffron"
+      },
+      {
+        question: "Who is credited with designing the final form of the Indian National Flag?",
+        options: ["Rabindranath Tagore", "Pingali Venkayya", "Mahatma Gandhi"],
+        answer: "Pingali Venkayya"
+      },
+      {
+        question: "What does the white band in the flag symbolize?",
+        options: ["Peace & Truth", "Wealth", "Strength"],
+        answer: "Peace & Truth"
+      }
+    ];
+
+    // ========= State =========
+    let currentQuestion = 0;
+    let score = 0;
+    let locked = false; // prevent double clicks
+
+    // ========= Elements =========
+    const qCounter = document.getElementById('qCounter');
+    const questionEl = document.getElementById('question');
+    const optionsContainer = document.getElementById('options');
+    const resultEl = document.getElementById('quizResult');
+    const scoreboardEl = document.getElementById('scoreboard');
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      renderQuestion();
+    });
+
+    function renderQuestion(){
+      locked = false;
+      resultEl.textContent = '';
+      optionsContainer.innerHTML = '';
+
+      if (currentQuestion >= quizData.length){
+        showFinal();
+        return;
+      }
+
+      const q = quizData[currentQuestion];
+      qCounter.textContent = `Question ${currentQuestion + 1} / ${quizData.length}`;
+      questionEl.textContent = q.question;
+
+      // create buttons
+      q.options.forEach(optText => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.type = 'button';
+        btn.textContent = optText;
+        btn.addEventListener('click', () => handleAnswer(optText, btn));
+        optionsContainer.appendChild(btn);
+      });
+
+      updateScoreboard();
+    }
+
+    function handleAnswer(selectedText, buttonEl){
+      if (locked) return;
+      locked = true;
+
+      const correct = quizData[currentQuestion].answer;
+      // mark selected button visually
+      buttonEl.classList.add('disabled');
+
+      if (selectedText === correct){
+        score++;
+        resultEl.textContent = '✅ Correct!';
+        spawnShower('flower');
+      } else {
+        resultEl.textContent = `❌ Wrong. Correct: ${correct}`;
+        spawnShower('leaf');
+      }
+
+      updateScoreboard();
+
+      // disable other buttons to avoid multiple clicks
+      optionsContainer.querySelectorAll('button').forEach(b => b.classList.add('disabled'));
+
+      // move to next question after a short pause
+      setTimeout(() => {
+        currentQuestion++;
+        renderQuestion();
+      }, 1200);
+    }
+
+    function showFinal(){
+      questionEl.textContent = 'Quiz Completed!';
+      qCounter.textContent = '';
+      optionsContainer.innerHTML = `
+        <div class="final-screen">
+          <div style="font-size:22px;font-weight:800">Your Score</div>
+          <div style="font-size:36px;margin-top:8px">${score} / ${quizData.length}</div>
+          <div style="margin-top:8px;color:#444">Thank you for participating 🇮🇳</div>
+          <button class="play-again" id="playAgainBtn">Play Again</button>
+        </div>
+      `;
+      resultEl.textContent = '';
+      updateScoreboard();
+      document.getElementById('playAgainBtn').addEventListener('click', resetQuiz);
+    }
+
+    function resetQuiz(){
+      currentQuestion = 0;
+      score = 0;
+      renderQuestion();
+    }
+
+    function updateScoreboard(){
+      scoreboardEl.textContent = `Score: ${score}`;
+    }
+
+    // ======= Shower animation =======
+    // type: 'flower' => floral emojis; 'leaf' => wilted/leaf emojis
+    function spawnShower(type){
+      const emojis = (type === 'flower') ? ['🌸','🌺','🌼','💐'] : ['🍂','🥀','🍁'];
+      const count = 18;
+      for (let i = 0; i < count; i++){
+        const node = document.createElement('div');
+        node.className = 'petal';
+        node.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+
+        // random horizontal start position (0..100vw)
+        const startX = Math.random() * 100;
+        node.style.left = startX + 'vw';
+
+        // random size
+        const size = 18 + Math.random()*30;
+        node.style.fontSize = size + 'px';
+
+        // random animation duration
+        const dur = 2.2 + Math.random()*2.8;
+        node.style.animationDuration = dur + 's';
+
+        // slight variation in horizontal drift by scaling animation translateX - we rely on keyframe to move
+        document.body.appendChild(node);
+
+        // cleanup after animation finishes
+        node.addEventListener('animationend', () => {
+          if (node && node.parentNode) node.parentNode.removeChild(node);
+        });
+
+        // safety remove after 6 seconds
+        setTimeout(() => {
+          if (node && node.parentNode) node.parentNode.removeChild(node);
+        }, 7000);
+      }
+    }
+
+    // (Optional) Expose for debugging in console:
+    window.__quiz = {quizData, renderQuestion, resetQuiz};
+  </script>
+</body>
+</html>

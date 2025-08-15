@@ -1,0 +1,179 @@
+:root {
+  --saffron: #ff9933;
+  --green: #138808;
+  --chakra: #000080;
+  --card: rgba(255, 255, 255, 0.85); /* semi-transparent to see video */
+  --text: #222;
+  --muted: #555;
+}
+
+
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  text-align: center;
+  color: white;
+}
+
+
+.hero {
+  text-align: center;
+  padding: 40px 16px;
+  background: transparent
+}
+.hero h1 {
+  margin: 0;
+  font-family: "Merriweather", serif;
+  font-size: 2.2rem;
+}
+.hero p {
+  margin: 6px 0 0;
+  color: var(--chakra);
+  font-weight: bold;
+}
+
+
+main {
+  position: relative;
+  min-height: 100vh; /* ensures space for video */
+  overflow: hidden;
+}
+
+
+.main-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  position: fixed;
+}
+
+
+.content {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  z-index: 1;
+}
+
+
+.card {
+  background: var(--card);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  color: var(--text);
+}
+.results pre {
+  background: #f7f7f7;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+canvas {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+
+button {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+button:hover { opacity: 0.9; }
+#run { background: var(--saffron); color: white; }
+#download { background: var(--green); color: white; }
+
+
+.score {
+  height: 18px;
+  background: #eee;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.score-fill {
+  height: 100%;
+  transition: width 0.5s;
+  background: linear-gradient(90deg, var(--saffron), white, var(--green));
+}
+
+
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.5rem;
+  color: white;
+  position: relative;
+}
+
+
+@media (max-width: 900px) {
+  .content { grid-template-columns: 1fr; }
+}
+
+.navbar {
+  position: sticky; 
+  top: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6); 
+  backdrop-filter: blur(6px);
+  z-index: 10;
+}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;  
+}
+
+.navbar li {
+  margin: 8px 15px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.navbar a:hover {
+  background: linear-gradient(to right, #ff9933, #ffffff, #138808); /* Tiranga gradient */
+  color: black;
+}
+.content1 {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr; /* single column for better readability */
+  z-index: 1;
+}
+
